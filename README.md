@@ -1,153 +1,90 @@
-# Social AI Post Generator
+# Social Media Post Generator
 
-## Overview
-
-The Social AI Post Generator is a web application that leverages artificial intelligence to create engaging social media posts based on user prompts. This tool allows users to easily generate, review, edit, and save posts to a Google Spreadsheet, streamlining the content creation process for social media managers and content creators.
-
-## Table of Contents
-
-1. [Features](#features)
-2. [Technologies Used](#technologies-used)
-3. [Project Structure](#project-structure)
-4. [Routes](#routes)
-5. [Key Components](#key-components)
-6. [Functionality](#functionality)
-7. [Vercel AI SDK Integration](#vercel-ai-sdk-integration)
-8. [Setup and Configuration](#setup-and-configuration)
-9. [Deployment](#deployment)
-10. [Future Enhancements](#future-enhancements)
+This application allows users to generate social media posts using OpenAI's API and save them to a Google Spreadsheet. It's built with Next.js 14 app router and TypeScript.
 
 ## Features
 
-- AI-powered social media post generation
-- User-friendly chat interface
-- Post review and editing capabilities
-- Save posts to Google Spreadsheet
-- View and manage saved posts
-- Responsive design for desktop and mobile
-- Error handling and data validation
+- Generate social media posts using OpenAI's API
+- Save generated posts to a Google Spreadsheet
+- The Generated posts are saved to the Google Spreadsheet only when the user clicks on the save button.
+- User can copy the generated post to the clipboard by clicking on the copy button.
+- Retrieve and display saved posts (Bonus feature)
+- Error handling and user feedback for API requests (Bonus feature)
+- Responsive design
+- Toast notifications for user feedback
 
-## Technologies Used
+## Google Spreadsheet
 
-1. **Next.js**: React framework for building the web application
-2. **Vercel AI SDK**: Provides easy integration with AI models for text generation
-3. **Tailwind CSS**: Utility-first CSS framework for styling
-4. **Google Sheets API**: Used for storing and retrieving generated posts
-5. **OpenAI API**: Powers the AI model for generating social media posts
-6. **TypeScript**: Adds static typing to improve code quality and developer experience
+You can view and edit the Google Spreadsheet used for storing posts [here](https://docs.google.com/spreadsheets/d/1acY4sD2krzP4-x63cwsfxfCjBaA77faHzxv9qKtO5Hk/).
 
-## Project Structure
+## Code Walkthrough
 
-- app/
-  - api/
-    - chat/
-      - route.ts
-    - sheet/
-      - route.ts
-  - posts/
-    - page.tsx
-  - layout.tsx
-  - page.tsx
-- components/
-  - ChatForm.tsx
-  - Header.tsx
-  - HowToSteps.tsx
-  - MessageItem.tsx
-  - Sidebar.tsx
-  - WelcomeSection.tsx
-  - ui/
-    - ... (UI components)
-- lib/
-  - actions/
-    - actions.ts
-  - utils.ts
-- public/
-  - ... (static files)
-- README.md
+Here's a brief overview of the folder structure:
 
-## Routes
+- `app/`: Contains the main pages and API routes.
 
-1. **Home Page** (`/app/page.tsx`)
+  - `page.tsx`: The home page with the post generation interface.
+  - `posts/page.tsx`: Displays retrieved posts (Bonus feature).
+  - `api/`: Contains API route handlers.
+    - `chat/route.ts`: Handles post generation using OpenAI API.
+    - `sheet/route.ts`: POST handler Manages saving posts to Google Sheets.
+    - `sheet/route.ts`: GET handler Retrieves posts from Google Sheets (Bonus feature).
 
-   - Main interface for generating posts
-   - Displays welcome message and how-to steps for new users
-   - Shows chat interface with AI for returning users
+- `components/`: Contains reusable React components.
 
-2. **Posts Page** (`/app/posts/page.tsx`)
+  - `ChatForm.tsx`: The form for entering prompts.
+  - `header.tsx`: The header component.
+  - `HowToSteps.tsx`: The steps for generating posts.
+  - `PostCard.tsx`: Displays a single post.
+  - `sidebar.tsx`: The sidebar component.
+  - `message-item.tsx`: Displays chat messages.
+  - `WelcomeSection.tsx`: The welcome section in chat.
+  - `ui/` : Contains UI components.
 
-   - Displays all saved posts
-   - Allows users to view and manage their generated posts
+- `lib/`: Contains utility functions and server actions.
 
-3. **API Routes**:
-   - **Chat API** (`/app/api/chat/route.ts`)
-     - Handles communication with the AI model for generating posts
-   - **Sheet API** (`/app/api/sheet/route.ts`)
-     - Handles saving posts to and fetching posts from Google Sheets
+  - `utils.ts`: Utility functions used across the application.
+  - `/actions/actions.ts` : Contains Next.js Server actions .
 
-## Key Components
+- `public/`: Stores static assets.
 
-1. **ChatForm** (`/components/ChatForm.tsx`)
+## Deployment
 
-   - Input form for user prompts
-   - Handles submission of prompts to the AI
+This application is deployed using Vercel. You can access it at [https://your-app-name.vercel.app](https://your-app-name.vercel.app).
 
-2. **MessageItem** (`/components/MessageItem.tsx`)
+### Deployment Instructions
 
-   - Displays individual messages in the chat interface
-   - Includes options to copy and save generated posts
+1. Fork this repository to your GitHub account.
+2. Sign up for a [Vercel](https://vercel.com/) account if you haven't already.
+3. Create a new project in Vercel and import your forked repository.
+4. Set up the following environment variables in your Vercel project settings:
+   - `OPENAI_API_KEY`: Your OpenAI API key
+   - `GOOGLE_SHEETS_PRIVATE_KEY`: Your Google service account private key
+   - `GOOGLE_SHEETS_CLIENT_EMAIL`: Your Google service account email
+   - `GOOGLE_SHEETS_SPREADSHEET_ID`: Your Google Spreadsheet ID
+5. Deploy the project.
 
-3. **HowToSteps** (`/components/HowToSteps.tsx`)
-
-   - Displays a step-by-step guide on how to use the application
-
-4. **WelcomeSection** (`/components/WelcomeSection.tsx`)
-
-   - Welcomes new users and provides an overview of the application
-
-5. **Header** (`/components/Header.tsx`)
-
-   - Application header with navigation options
-
-6. **Sidebar** (`/components/Sidebar.tsx`)
-   - Navigation sidebar for desktop view
-
-## Functionality
-
-1. **Post Generation**
-
-   - Users can enter prompts to generate social media posts
-   - AI processes the prompt and returns a generated post
-   - Users can review and edit the generated post
-
-2. **Post Saving**
-
-   - Generated posts can be saved to a Google Spreadsheet
-   - Saved posts include timestamp, original prompt, and generated content
-
-3. **Post Retrieval**
-
-   - Users can view all saved posts on the Posts page
-   - Posts are fetched from the Google Spreadsheet
-
-4. **Responsive Design**
-
-   - The application is responsive and works on both desktop and mobile devices
-   - Includes a sidebar for desktop and a mobile menu for smaller screens
-
-5. **Error Handling**
-   - Provides user feedback for errors during post generation or saving
-   - Handles empty or invalid data in the spreadsheet
-
-## Vercel AI SDK Integration
-
-This project leverages the Vercel AI SDK to streamline the integration of AI capabilities:
-
-- **useChat Hook**: Used in the main chat interface to manage the state of the conversation and handle AI responses.
-- **AI Streaming**: Implements real-time streaming of AI-generated content for a more responsive user experience.
-- **API Route Integration**: The `/api/chat/route.ts` file uses Vercel AI SDK's `streamText` function to process prompts and generate responses.
-
-The Vercel AI SDK simplifies the process of working with AI models, handling streaming, and managing the chat state, allowing for a smoother development experience and better performance.
-
-## Setup and Configuration
+## Local Development
 
 1. Clone the repository:
+   - `git clone https://github.com/Mriganka5137/moondev.git`
+   - `cd moondev`
+2. Install dependencies:
+   - `pnpm install`
+3. Set up the following environment variables in a `.env.local` file:
+   - `OPENAI_API_KEY`: Your OpenAI API key
+   - `GOOGLE_SHEETS_PRIVATE_KEY`: Your Google service account private key
+   - `GOOGLE_SHEETS_CLIENT_EMAIL`: Your Google service account email
+   - `GOOGLE_SHEETS_SPREADSHEET_ID`: Your Google Spreadsheet ID
+4. Run the development server:
+   - `pnpm run dev`
+5. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+## Bonus Tasks Completed
+
+1. Implemented retrieval and display of generated posts from the Google Spreadsheet.
+2. Added error handling and user feedback for API requests.
+
+## Note
+
+The API keys used in this project are for development purposes only. In a production environment, these should be kept secure and not exposed in the client-side code.
