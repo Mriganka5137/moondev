@@ -31,7 +31,7 @@ export const ChatForm: React.FC<ChatFormProps> = ({
     <Textarea
       id="message"
       placeholder="Enter your prompt here (e.g., 'Create a Twitter post about eco-friendly products')..."
-      className="min-h-12 resize-none border-0 p-3 shadow-none focus-visible:ring-0 bg-zinc-800 placeholder:text-zinc-500 placeholder:font-light"
+      className="min-h-12 resize-none border-0 p-3 shadow-none focus-visible:ring-0 bg-zinc-800 placeholder:text-zinc-500 placeholder:font-light max-md:placeholder:text-xs"
       value={input}
       onChange={onInputChange}
       onKeyDown={onKeyDown}
