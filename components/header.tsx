@@ -42,7 +42,7 @@ const Header = () => {
                 onClick={() => router.push("/")}
               >
                 <Home className="mr-2 size-5" />
-                Playground
+                Chat
               </Button>
               <Button
                 variant="ghost"
