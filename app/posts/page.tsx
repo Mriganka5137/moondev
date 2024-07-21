@@ -1,4 +1,3 @@
-// app/posts/page.tsx
 import { fetchPosts } from "@/lib/actions/actions";
 import { PostCard } from "@/components/PostCard";
 import { AlertCircle, Info } from "lucide-react";

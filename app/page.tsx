@@ -1,21 +1,16 @@
-// app/page.tsx
 "use client";
 import { useChat } from "ai/react";
 import { useToast } from "@/components/ui/use-toast";
 import { MessageItem } from "@/components/message-item";
 import { WelcomeSection } from "@/components/WelcomeSection";
 import { ChatForm } from "@/components/ChatForm";
-import { KeyboardEvent, useRef, useEffect } from "react";
+import { KeyboardEvent, useRef, useEffect, useState } from "react";
 
 export default function Home() {
   const { messages, input, handleInputChange, handleSubmit, isLoading, error } =
     useChat();
-  const inputRef = useRef<string>("");
+  const [prompts, setPrompts] = useState<string[]>([]);
   const { toast } = useToast();
-
-  useEffect(() => {
-    inputRef.current = input;
-  }, [input]);
 
   useEffect(() => {
     if (error) {
@@ -30,12 +25,13 @@ export default function Home() {
   const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
-      handleSubmit(e as any);
+      handleFormSubmit(e as any);
     }
   };
 
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setPrompts((prev) => [...prev, input]); // Save the current input as a prompt
     handleSubmit(e);
   };
 
@@ -49,7 +45,9 @@ export default function Home() {
             <MessageItem
               key={m.id}
               message={m}
-              prompt={m.role === "assistant" ? inputRef.current : ""}
+              prompt={
+                m.role === "assistant" ? prompts[Math.floor(index / 2)] : ""
+              }
             />
           ))
         )}

@@ -1,3 +1,4 @@
+"use client";
 import { Message } from "ai";
 import { User, Bot, Copy, Save } from "lucide-react";
 import { useState } from "react";
@@ -28,19 +29,23 @@ export function MessageItem({ message, prompt }: MessageItemProps) {
   };
 
   const saveToSpreadsheet = async () => {
-    if (isUser) return; // Only save AI responses
     setSaving(true);
     try {
+      const data = {
+        timestamp: new Date().toISOString(),
+        prompt: prompt.trim(),
+        post: message.content.trim(),
+      };
+
+      // Log the data being sent (for debugging)
+      console.log("Sending data:", data);
+
       const response = await fetch("/api/sheet", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          timestamp: new Date().toISOString(),
-          prompt: prompt,
-          post: message.content,
-        }),
+        body: JSON.stringify(data),
       });
 
       if (response.ok) {
@@ -49,13 +54,14 @@ export function MessageItem({ message, prompt }: MessageItemProps) {
           description: "Saved to spreadsheet successfully",
         });
       } else {
-        throw new Error("Failed to save");
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to save");
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error saving to spreadsheet:", error);
       toast({
         title: "Error",
-        description: "Failed to save to spreadsheet",
+        description: error.message || "Failed to save to spreadsheet",
         variant: "destructive",
       });
     } finally {
