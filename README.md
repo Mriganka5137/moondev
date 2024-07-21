@@ -1,36 +1,130 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Social AI Post Generator
 
-## Getting Started
+This project is a web application that uses AI to generate social media posts based on user prompts. It allows users to create, review, edit, and save posts to a Google Spreadsheet.
 
-First, run the development server:
+## Project Structure
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+/
+├── app/
+│ ├── api/
+│ │ ├── chat/
+│ │ │ └── route.ts
+│ │ └── sheet/
+│ │ └── route.ts
+│ ├── posts/
+│ │ └── page.tsx
+│ ├── layout.tsx
+│ └── page.tsx
+├── components/
+│ ├── ChatForm.tsx
+│ ├── Header.tsx
+│ ├── HowToSteps.tsx
+│ ├── MessageItem.tsx
+│ ├── Sidebar.tsx
+│ ├── WelcomeSection.tsx
+│ └── ui/
+│ └── ... (UI components)
+├── lib/
+│ ├── actions/
+│ │ └── actions.ts
+│ └── utils.ts
+├── public/
+│ └── ... (static files)
+└── README.md
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Routes
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. **Home Page** (`/app/page.tsx`)
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+   - Main interface for generating posts
+   - Displays welcome message and how-to steps for new users
+   - Shows chat interface with AI for returning users
 
-## Learn More
+2. **Posts Page** (`/app/posts/page.tsx`)
 
-To learn more about Next.js, take a look at the following resources:
+   - Displays all saved posts
+   - Allows users to view and manage their generated posts
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. **API Routes**:
+   - **Chat API** (`/app/api/chat/route.ts`)
+     - Handles communication with the AI model for generating posts
+   - **Sheet API** (`/app/api/sheet/route.ts`)
+     - Handles saving posts to and fetching posts from Google Sheets
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Key Components
 
-## Deploy on Vercel
+1. **ChatForm** (`/components/ChatForm.tsx`)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+   - Input form for user prompts
+   - Handles submission of prompts to the AI
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+2. **MessageItem** (`/components/MessageItem.tsx`)
+
+   - Displays individual messages in the chat interface
+   - Includes options to copy and save generated posts
+
+3. **HowToSteps** (`/components/HowToSteps.tsx`)
+
+   - Displays a step-by-step guide on how to use the application
+
+4. **WelcomeSection** (`/components/WelcomeSection.tsx`)
+
+   - Welcomes new users and provides an overview of the application
+
+5. **Header** (`/components/Header.tsx`)
+
+   - Application header with navigation options
+
+6. **Sidebar** (`/components/Sidebar.tsx`)
+   - Navigation sidebar for desktop view
+
+## Functionality
+
+1. **Post Generation**
+
+   - Users can enter prompts to generate social media posts
+   - AI processes the prompt and returns a generated post
+   - Users can review and edit the generated post
+
+2. **Post Saving**
+
+   - Generated posts can be saved to a Google Spreadsheet
+   - Saved posts include timestamp, original prompt, and generated content
+
+3. **Post Retrieval**
+
+   - Users can view all saved posts on the Posts page
+   - Posts are fetched from the Google Spreadsheet
+
+4. **Responsive Design**
+
+   - The application is responsive and works on both desktop and mobile devices
+   - Includes a sidebar for desktop and a mobile menu for smaller screens
+
+5. **Error Handling**
+   - Provides user feedback for errors during post generation or saving
+   - Handles empty or invalid data in the spreadsheet
+
+## Setup and Configuration
+
+1. Clone the repository
+2. Install dependencies: `npm install`
+3. Set up environment variables:
+   - `GOOGLE_SHEET_ID`: ID of your Google Spreadsheet
+   - `GOOGLE_CLIENT_EMAIL`: Google service account email
+   - `GOOGLE_PRIVATE_KEY`: Google service account private key
+   - `OPENAI_API_KEY`: Your OpenAI API key
+4. Run the development server: `npm run dev`
+
+## Deployment
+
+This project is set up to be easily deployed on Vercel. Simply connect your GitHub repository to Vercel and it will automatically deploy your application.
+
+Make sure to set up the necessary environment variables in your Vercel project settings.
+
+## Future Enhancements
+
+- Implement user authentication
+- Add support for multiple social media platforms
+- Integrate directly with social media APIs for posting
+- Implement a tagging system for organizing posts
