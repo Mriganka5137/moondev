@@ -50,7 +50,7 @@ Here's a brief overview of the folder structure:
 
 ## Deployment
 
-This application is deployed using Vercel. You can access it at [https://your-app-name.vercel.app](https://your-app-name.vercel.app).
+This application is deployed using Vercel. You can access it at [https://moondev-theta.vercel.app/](https://moondev-theta.vercel.app/).
 
 ### Deployment Instructions
 
