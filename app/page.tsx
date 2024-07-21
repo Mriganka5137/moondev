@@ -36,7 +36,7 @@ export default function Home() {
   };
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full max-md:pb-16">
       <div className="flex-1 overflow-y-auto p-4 space-y-4 container">
         {messages.length === 0 ? (
           <WelcomeSection />
@@ -53,7 +53,7 @@ export default function Home() {
         )}
       </div>
 
-      <div className="p-4 container pb-10">
+      <div className="p-4 container ">
         <ChatForm
           input={input}
           isLoading={isLoading}
