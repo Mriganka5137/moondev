@@ -31,6 +31,7 @@ This project is a web application that uses AI to generate social media posts ba
 ├── public/
 │ └── ... (static files)
 └── README.md
+/
 
 ## Routes
 
