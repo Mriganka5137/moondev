@@ -8,12 +8,11 @@ import {
 } from "lucide-react";
 import { Button } from "./ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
-import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 const Sidebar = () => {
-  const router = useRouter();
   const path = usePathname();
   return (
     <aside className="inset-y fixed  left-0 z-20 flex h-full flex-col border-r max-md:hidden">
@@ -25,15 +24,15 @@ const Sidebar = () => {
       <nav className="grid gap-1 p-2 ">
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button
-              variant="ghost"
-              size="icon"
-              className={cn(path === "/" && "bg-muted", "rounded-lg")}
-              aria-label="Chat"
-              onClick={() => router.push("/")}
+            <Link
+              href="/"
+              className={cn(
+                path === "/" && "bg-muted",
+                "rounded-lg flex justify-center items-center p-2"
+              )}
             >
               <SquareTerminal className="size-5" />
-            </Button>
+            </Link>
           </TooltipTrigger>
           <TooltipContent side="right" sideOffset={5}>
             Playground
@@ -41,7 +40,7 @@ const Sidebar = () => {
         </Tooltip>
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button
+            {/* <Button
               variant="ghost"
               size="icon"
               className={cn(path === "/posts" && "bg-muted", "rounded-lg")}
@@ -49,7 +48,17 @@ const Sidebar = () => {
               onClick={() => router.push("/posts")}
             >
               <NotebookPen className="size-5" />
-            </Button>
+            </Button> */}
+
+            <Link
+              href="/posts"
+              className={cn(
+                path === "/posts" && "bg-muted",
+                "rounded-lg flex justify-center items-center p-2"
+              )}
+            >
+              <NotebookPen className="size-5" />
+            </Link>
           </TooltipTrigger>
           <TooltipContent side="right" sideOffset={5}>
             Posts

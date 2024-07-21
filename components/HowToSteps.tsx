@@ -1,4 +1,12 @@
-// components/HowToSteps.tsx
+import { twMerge } from "tailwind-merge";
+
+const colorMap = {
+  blue: "bg-blue-500",
+  green: "bg-green-500",
+  violet: "bg-violet-500",
+  yellow: "bg-yellow-500",
+};
+
 const steps = [
   {
     title: "Enter Prompt",
@@ -13,7 +21,7 @@ const steps = [
   {
     title: "Review & Edit",
     description: "Customize the post",
-    color: "purple",
+    color: "violet",
   },
   { title: "Save Post", description: "Store in spreadsheet", color: "yellow" },
 ];
@@ -35,7 +43,10 @@ const StepCard = ({
 }) => (
   <div className="border border-zinc-700 p-4 rounded-lg bg-zinc-800/50 shadow-sm flex flex-col items-center text-center h-40">
     <div
-      className={`bg-${step.color}-500 rounded-full w-8 h-8 flex items-center justify-center mb-2`}
+      className={twMerge(
+        "rounded-full w-8 h-8 flex items-center justify-center mb-2",
+        colorMap[step.color as keyof typeof colorMap]
+      )}
     >
       <span className="text-white font-bold text-xs">{index}</span>
     </div>
