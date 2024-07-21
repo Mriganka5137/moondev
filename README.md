@@ -2,37 +2,6 @@
 
 This project is a web application that uses AI to generate social media posts based on user prompts. It allows users to create, review, edit, and save posts to a Google Spreadsheet.
 
-## Project Structure
-
-/
-├── app/
-│ ├── api/
-│ │ ├── chat/
-│ │ │ └── route.ts
-│ │ └── sheet/
-│ │ └── route.ts
-│ ├── posts/
-│ │ └── page.tsx
-│ ├── layout.tsx
-│ └── page.tsx
-├── components/
-│ ├── ChatForm.tsx
-│ ├── Header.tsx
-│ ├── HowToSteps.tsx
-│ ├── MessageItem.tsx
-│ ├── Sidebar.tsx
-│ ├── WelcomeSection.tsx
-│ └── ui/
-│ └── ... (UI components)
-├── lib/
-│ ├── actions/
-│ │ └── actions.ts
-│ └── utils.ts
-├── public/
-│ └── ... (static files)
-└── README.md
-/
-
 ## Routes
 
 1. **Home Page** (`/app/page.tsx`)
