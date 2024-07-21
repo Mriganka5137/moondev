@@ -1,20 +1,31 @@
+// app/page.tsx
 "use client";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-
-import { Paperclip, Mic, CornerDownLeft } from "lucide-react";
 import { useChat } from "ai/react";
+import { useToast } from "@/components/ui/use-toast";
 import { MessageItem } from "@/components/message-item";
-import { KeyboardEvent } from "react";
+import { WelcomeSection } from "@/components/WelcomeSection";
+import { ChatForm } from "@/components/ChatForm";
+import { KeyboardEvent, useRef, useEffect } from "react";
 
 export default function Home() {
-  const { messages, input, handleInputChange, handleSubmit } = useChat();
+  const { messages, input, handleInputChange, handleSubmit, isLoading, error } =
+    useChat();
+  const inputRef = useRef<string>("");
+  const { toast } = useToast();
+
+  useEffect(() => {
+    inputRef.current = input;
+  }, [input]);
+
+  useEffect(() => {
+    if (error) {
+      toast({
+        title: "Error",
+        description: "An error occurred while processing your request.",
+        variant: "destructive",
+      });
+    }
+  }, [error, toast]);
 
   const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
@@ -23,55 +34,35 @@ export default function Home() {
     }
   };
 
+  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    handleSubmit(e);
+  };
+
   return (
     <div className="flex flex-col h-full">
       <div className="flex-1 overflow-y-auto p-4 space-y-4 container">
-        {messages.map((m) => (
-          <MessageItem key={m.id} message={m} />
-        ))}
+        {messages.length === 0 ? (
+          <WelcomeSection />
+        ) : (
+          messages.map((m, index) => (
+            <MessageItem
+              key={m.id}
+              message={m}
+              prompt={m.role === "assistant" ? inputRef.current : ""}
+            />
+          ))
+        )}
       </div>
 
       <div className="p-4 container">
-        <form
-          className="relative overflow-hidden rounded-lg border bg-zinc-800 focus-within:ring-1 focus-within:ring-ring"
-          onSubmit={handleSubmit}
-        >
-          <Label htmlFor="message" className="sr-only">
-            Message
-          </Label>
-          <Textarea
-            id="message"
-            placeholder="Type your message here..."
-            className="min-h-12 resize-none border-0 p-3 shadow-none focus-visible:ring-0 bg-zinc-800"
-            value={input}
-            onChange={handleInputChange}
-            onKeyDown={handleKeyDown}
-          />
-          <div className="flex items-center p-3 pt-0">
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon">
-                  <Paperclip className="size-4" />
-                  <span className="sr-only">Attach file</span>
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent side="top">Attach File</TooltipContent>
-            </Tooltip>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon">
-                  <Mic className="size-4" />
-                  <span className="sr-only">Use Microphone</span>
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent side="top">Use Microphone</TooltipContent>
-            </Tooltip>
-            <Button type="submit" size="sm" className="ml-auto gap-1.5">
-              Send Message
-              <CornerDownLeft className="size-3.5" />
-            </Button>
-          </div>
-        </form>
+        <ChatForm
+          input={input}
+          isLoading={isLoading}
+          onInputChange={handleInputChange}
+          onSubmit={handleFormSubmit}
+          onKeyDown={handleKeyDown}
+        />
       </div>
     </div>
   );

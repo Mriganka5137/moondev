@@ -7,14 +7,18 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { useToast } from "@/components/ui/use-toast";
 
 interface MessageItemProps {
   message: Message;
+  prompt: string;
 }
 
-export function MessageItem({ message }: MessageItemProps) {
+export function MessageItem({ message, prompt }: MessageItemProps) {
   const isUser = message.role === "user";
   const [copied, setCopied] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const { toast } = useToast();
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(message.content).then(() => {
@@ -23,9 +27,40 @@ export function MessageItem({ message }: MessageItemProps) {
     });
   };
 
-  const saveToSpreadsheet = () => {
-    // Implement the logic to save to spreadsheet here
-    console.log("Saving to spreadsheet:", message.content);
+  const saveToSpreadsheet = async () => {
+    if (isUser) return; // Only save AI responses
+    setSaving(true);
+    try {
+      const response = await fetch("/api/sheet", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          timestamp: new Date().toISOString(),
+          prompt: prompt,
+          post: message.content,
+        }),
+      });
+
+      if (response.ok) {
+        toast({
+          title: "Success",
+          description: "Saved to spreadsheet successfully",
+        });
+      } else {
+        throw new Error("Failed to save");
+      }
+    } catch (error) {
+      console.error("Error saving to spreadsheet:", error);
+      toast({
+        title: "Error",
+        description: "Failed to save to spreadsheet",
+        variant: "destructive",
+      });
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
@@ -66,11 +101,14 @@ export function MessageItem({ message }: MessageItemProps) {
                     variant="ghost"
                     size="icon"
                     onClick={saveToSpreadsheet}
+                    disabled={saving}
                   >
                     <Save className="w-4 h-4" />
                   </Button>
                 </TooltipTrigger>
-                <TooltipContent>Save to spreadsheet</TooltipContent>
+                <TooltipContent>
+                  {saving ? "Saving..." : "Save to spreadsheet"}
+                </TooltipContent>
               </Tooltip>
             </div>
           )}

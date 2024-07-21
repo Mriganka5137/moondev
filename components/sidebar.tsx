@@ -1,20 +1,20 @@
-import React from "react";
+"use client";
+import {
+  BotMessageSquare,
+  LifeBuoy,
+  NotebookPen,
+  SquareTerminal,
+  SquareUser,
+} from "lucide-react";
 import { Button } from "./ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
-import {
-  Triangle,
-  SquareTerminal,
-  Bot,
-  Code2,
-  Book,
-  Settings2,
-  LifeBuoy,
-  SquareUser,
-  BotMessageSquare,
-  NotebookPen,
-} from "lucide-react";
+import { useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 const Sidebar = () => {
+  const router = useRouter();
+  const path = usePathname();
   return (
     <aside className="inset-y fixed  left-0 z-20 flex h-full flex-col border-r max-md:hidden">
       <div className="border-b p-2">
@@ -28,8 +28,9 @@ const Sidebar = () => {
             <Button
               variant="ghost"
               size="icon"
-              className="rounded-lg bg-muted"
-              aria-label="Playground"
+              className={cn(path === "/" && "bg-muted", "rounded-lg")}
+              aria-label="Chat"
+              onClick={() => router.push("/")}
             >
               <SquareTerminal className="size-5" />
             </Button>
@@ -43,8 +44,9 @@ const Sidebar = () => {
             <Button
               variant="ghost"
               size="icon"
-              className="rounded-lg"
-              aria-label="Models"
+              className={cn(path === "/posts" && "bg-muted", "rounded-lg")}
+              aria-label="Posts"
+              onClick={() => router.push("/posts")}
             >
               <NotebookPen className="size-5" />
             </Button>

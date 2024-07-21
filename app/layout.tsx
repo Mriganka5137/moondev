@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import Sidebar from "@/components/sidebar";
 import Header from "@/components/header";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -42,7 +43,8 @@ export default function RootLayout({
             <Sidebar />
             <div className="flex flex-1 flex-col font-spaceGrotesk pl-[56px] max-md:pl-0">
               <Header />
-              <main className="flex-1 overflow-hidden">{children}</main>
+              <main className="flex-1 overflow-y-auto">{children}</main>
+              <Toaster />
             </div>
           </div>
         </TooltipProvider>
