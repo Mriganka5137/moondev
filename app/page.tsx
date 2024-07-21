@@ -53,7 +53,7 @@ export default function Home() {
         )}
       </div>
 
-      <div className="p-4 container">
+      <div className="p-4 container pb-10">
         <ChatForm
           input={input}
           isLoading={isLoading}
