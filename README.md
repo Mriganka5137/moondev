@@ -1,6 +1,69 @@
 # Social AI Post Generator
 
-This project is a web application that uses AI to generate social media posts based on user prompts. It allows users to create, review, edit, and save posts to a Google Spreadsheet.
+## Overview
+
+The Social AI Post Generator is a web application that leverages artificial intelligence to create engaging social media posts based on user prompts. This tool allows users to easily generate, review, edit, and save posts to a Google Spreadsheet, streamlining the content creation process for social media managers and content creators.
+
+## Table of Contents
+
+1. [Features](#features)
+2. [Technologies Used](#technologies-used)
+3. [Project Structure](#project-structure)
+4. [Routes](#routes)
+5. [Key Components](#key-components)
+6. [Functionality](#functionality)
+7. [Vercel AI SDK Integration](#vercel-ai-sdk-integration)
+8. [Setup and Configuration](#setup-and-configuration)
+9. [Deployment](#deployment)
+10. [Future Enhancements](#future-enhancements)
+
+## Features
+
+- AI-powered social media post generation
+- User-friendly chat interface
+- Post review and editing capabilities
+- Save posts to Google Spreadsheet
+- View and manage saved posts
+- Responsive design for desktop and mobile
+- Error handling and data validation
+
+## Technologies Used
+
+1. **Next.js**: React framework for building the web application
+2. **Vercel AI SDK**: Provides easy integration with AI models for text generation
+3. **Tailwind CSS**: Utility-first CSS framework for styling
+4. **Google Sheets API**: Used for storing and retrieving generated posts
+5. **OpenAI API**: Powers the AI model for generating social media posts
+6. **TypeScript**: Adds static typing to improve code quality and developer experience
+
+## Project Structure
+
+- app/
+  - api/
+    - chat/
+      - route.ts
+    - sheet/
+      - route.ts
+  - posts/
+    - page.tsx
+  - layout.tsx
+  - page.tsx
+- components/
+  - ChatForm.tsx
+  - Header.tsx
+  - HowToSteps.tsx
+  - MessageItem.tsx
+  - Sidebar.tsx
+  - WelcomeSection.tsx
+  - ui/
+    - ... (UI components)
+- lib/
+  - actions/
+    - actions.ts
+  - utils.ts
+- public/
+  - ... (static files)
+- README.md
 
 ## Routes
 
@@ -75,26 +138,16 @@ This project is a web application that uses AI to generate social media posts ba
    - Provides user feedback for errors during post generation or saving
    - Handles empty or invalid data in the spreadsheet
 
+## Vercel AI SDK Integration
+
+This project leverages the Vercel AI SDK to streamline the integration of AI capabilities:
+
+- **useChat Hook**: Used in the main chat interface to manage the state of the conversation and handle AI responses.
+- **AI Streaming**: Implements real-time streaming of AI-generated content for a more responsive user experience.
+- **API Route Integration**: The `/api/chat/route.ts` file uses Vercel AI SDK's `streamText` function to process prompts and generate responses.
+
+The Vercel AI SDK simplifies the process of working with AI models, handling streaming, and managing the chat state, allowing for a smoother development experience and better performance.
+
 ## Setup and Configuration
 
-1. Clone the repository
-2. Install dependencies: `npm install`
-3. Set up environment variables:
-   - `GOOGLE_SHEET_ID`: ID of your Google Spreadsheet
-   - `GOOGLE_CLIENT_EMAIL`: Google service account email
-   - `GOOGLE_PRIVATE_KEY`: Google service account private key
-   - `OPENAI_API_KEY`: Your OpenAI API key
-4. Run the development server: `npm run dev`
-
-## Deployment
-
-This project is set up to be easily deployed on Vercel. Simply connect your GitHub repository to Vercel and it will automatically deploy your application.
-
-Make sure to set up the necessary environment variables in your Vercel project settings.
-
-## Future Enhancements
-
-- Implement user authentication
-- Add support for multiple social media platforms
-- Integrate directly with social media APIs for posting
-- Implement a tagging system for organizing posts
+1. Clone the repository:
